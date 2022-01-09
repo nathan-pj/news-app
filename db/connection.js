@@ -15,8 +15,11 @@ require("dotenv").config({
 });
 console.log(process.env.PGDATABASE, "<<<<<<<<<<<<<<<<<<<<<<");
 
-if (!process.env.PGDATABASE && !process.env.DATABASE_URL) {
-  throw new Error("PGDATABASE not set or DATABASE_URL not set");
+if (!process.env.PGDATABASE) {
+  throw new Error("PGDATABASE not set");
+}
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL not set");
 }
 
 module.exports = new Pool(config);
