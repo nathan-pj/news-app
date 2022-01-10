@@ -15,4 +15,4 @@ To use the development data, make a file called '.env.development' and write 'PG
 To use the test data, make a file called '.env.test' and write 'PGDATABASE=nc_news_test'
 
 Finally, you can view it on heroku here:
-https://nc-news-npj.herokuapp.com/api
+https://news-app-npj.herokuapp.com/api/
