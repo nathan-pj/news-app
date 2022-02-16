@@ -127,7 +127,7 @@ describe("GET /api/articles/", () => {
       .then(({ body }) => {
         expect(typeof body).toBe("object");
         expect(body.articles[0].created_at).toBe("2020-11-03T09:12:00.000Z");
-        expect(body.articles[0].count).toBe("2");
+        expect(body.articles[0].comment_count).toBe("2");
       });
   });
   test("200 - sort by title in descending order", () => {
@@ -295,7 +295,37 @@ describe("POST /api/articles/:article_id/comments ", () => {
       });
   });
 });
-
+describe.only("POST /api/articles ", () => {
+  test("201 - able to post article ", () => {
+    return request(app)
+      .post("/api/articles")
+      .send({
+        author: "icellusedkars",
+        body: "test body",
+        title: "test title",
+        topic: "mitch",
+      })
+      .expect(201)
+      .then((response) => {
+        expect(response.body.article).toHaveProperty("author");
+        expect(response.body.article).toHaveProperty("topic");
+      });
+  });
+  test("404 - non-existent username", () => {
+    return request(app)
+      .post("/api/articles")
+      .send({
+        author: "DOESNT_EXIST",
+        body: "test body",
+        title: "test title",
+        topic: "mitch",
+      })
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("username does not exist");
+      });
+  });
+});
 describe("DELETE /api/comments/:comment_id ", () => {
   test("204 - delete comment", () => {
     return request(app)

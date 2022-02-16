@@ -75,7 +75,43 @@ exports.updateArticle = (article_id, vote) => {
         });
     });
 };
+exports.addArticle = (body, title, topic, author) => {
+  if (!body) {
+    return Promise.reject({ status: 400, msg: "include body" });
+  }
+  if (!title) {
+    return Promise.reject({ status: 400, msg: "include title" });
+  }
+  if (!topic) {
+    return Promise.reject({ status: 400, msg: "include topic" });
+  }
+  if (!author) {
+    return Promise.reject({ status: 400, msg: "include author" });
+  }
+  return db
+    .query(`SELECT * FROM users WHERE username = $1;`, [author])
+    .then(({ rows }) => {
+      console.log(rows);
+      if (rows.length === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: "username does not exist",
+        });
+      }
+    })
+    .then(() => {
+      const queryString = format(
+        `INSERT INTO articles(body, title, topic, author)
+        VALUES %L
+        RETURNING *;`,
+        [[body, title, topic, author]]
+      );
 
+      return db.query(queryString).then((response) => {
+        return response.rows[0];
+      });
+    });
+};
 exports.addArticleComment = (id, comment, username) => {
   return db
     .query(`SELECT * FROM comments WHERE article_id = $1`, [id])

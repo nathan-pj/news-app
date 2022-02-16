@@ -4,6 +4,7 @@ const {
   showArticles,
   showArticleComments,
   addArticleComment,
+  addArticle,
 } = require("../models/articles.model");
 
 exports.getSpecificArticle = (req, res, next) => {
@@ -58,6 +59,18 @@ exports.postArticleComment = (req, res, next) => {
   addArticleComment(article_id, comment, username)
     .then((comment) => {
       res.status(201).send({ comment: comment });
+    })
+    .catch(next);
+};
+
+exports.postArticle = (req, res, next) => {
+  const body = req.body.body;
+  const title = req.body.title;
+  const topic = req.body.topic;
+  const author = req.body.author;
+  addArticle(body, title, topic, author)
+    .then((article) => {
+      res.status(201).send({ article: article });
     })
     .catch(next);
 };
