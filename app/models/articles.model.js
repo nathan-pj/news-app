@@ -136,7 +136,7 @@ exports.showArticles = ({ sort_by = "created_at", order = "DESC", topic }) => {
     return Promise.reject({ status: 400, msg: "invalid order query" });
   }
 
-  let queryStr = `SELECT articles.*, COUNT(comments.article_id)
+  let queryStr = `SELECT articles.*, COUNT(comments.article_id) AS comment_count
                 FROM articles
                 LEFT JOIN comments
                 ON comments.article_id = articles.article_id`;
