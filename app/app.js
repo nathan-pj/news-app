@@ -1,10 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
+
 const {
   handleCustomErrors,
   handlePsqlErrors,
@@ -14,7 +10,7 @@ const {
 const apiRouter = require("./routes/api.router");
 
 const app = express();
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 app.use("/api", apiRouter);
