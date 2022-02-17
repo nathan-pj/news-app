@@ -75,7 +75,7 @@ exports.updateArticle = (article_id, vote) => {
         });
     });
 };
-exports.addArticle = (body, title, topic, author created_at) => {
+exports.addArticle = (body, title, topic, author, created_at) => {
   if (!body) {
     return Promise.reject({ status: 400, msg: "include body" });
   }
