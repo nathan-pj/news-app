@@ -295,7 +295,7 @@ describe("POST /api/articles/:article_id/comments ", () => {
       });
   });
 });
-describe.only("POST /api/articles ", () => {
+describe("POST /api/articles ", () => {
   test("201 - able to post article ", () => {
     return request(app)
       .post("/api/articles")

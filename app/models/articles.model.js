@@ -75,7 +75,7 @@ exports.updateArticle = (article_id, vote) => {
         });
     });
 };
-exports.addArticle = (body, title, topic, author) => {
+exports.addArticle = (body, title, topic, author created_at) => {
   if (!body) {
     return Promise.reject({ status: 400, msg: "include body" });
   }
@@ -101,10 +101,10 @@ exports.addArticle = (body, title, topic, author) => {
     })
     .then(() => {
       const queryString = format(
-        `INSERT INTO articles(body, title, topic, author)
+        `INSERT INTO articles(body, title, topic, author, created_at)
         VALUES %L
         RETURNING *;`,
-        [[body, title, topic, author]]
+        [[body, title, topic, author, created_at]]
       );
 
       return db.query(queryString).then((response) => {

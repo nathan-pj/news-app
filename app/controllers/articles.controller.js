@@ -68,7 +68,8 @@ exports.postArticle = (req, res, next) => {
   const title = req.body.title;
   const topic = req.body.topic;
   const author = req.body.author;
-  addArticle(body, title, topic, author)
+  const created_at = req.body.created_at;
+  addArticle(body, title, topic, author, created_at)
     .then((article) => {
       res.status(201).send({ article: article });
     })
