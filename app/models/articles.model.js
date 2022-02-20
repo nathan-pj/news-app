@@ -91,7 +91,6 @@ exports.addArticle = (body, title, topic, author, created_at) => {
   return db
     .query(`SELECT * FROM users WHERE username = $1;`, [author])
     .then(({ rows }) => {
-      console.log(rows);
       if (rows.length === 0) {
         return Promise.reject({
           status: 404,
@@ -114,7 +113,7 @@ exports.addArticle = (body, title, topic, author, created_at) => {
 };
 exports.addArticleComment = (id, comment, username) => {
   return db
-    .query(`SELECT * FROM comments WHERE article_id = $1`, [id])
+    .query(`SELECT * FROM articles WHERE article_id = $1`, [id])
     .then(({ rows }) => {
       if (rows.length === 0) {
         return Promise.reject({ status: 404, msg: "article not found" });
