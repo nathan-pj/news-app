@@ -170,14 +170,10 @@ exports.showArticles = ({ sort_by = "created_at", order = "DESC", topic }) => {
   if (!["DESC", "ASC"].includes(order)) {
     return Promise.reject({ status: 400, msg: "invalid order query" });
   }
-
   let queryStr = `SELECT articles.*, COUNT(comments.article_id) AS comment_count
-                FROM articles
-                LEFT JOIN comments
-                ON comments.article_id = articles.article_id`;
-
-  queryStr += ` GROUP by articles.article_id
-      ORDER BY ${sort_by} ${order};`;
+FROM articles
+LEFT JOIN comments
+ON comments.article_id = articles.article_id`;
   return db
     .query(`SELECT * FROM articles WHERE topic = $1;`, [topic])
     .then(({ rows }) => {
@@ -187,10 +183,17 @@ exports.showArticles = ({ sort_by = "created_at", order = "DESC", topic }) => {
             status: 404,
             msg: `topic '${topic}' doesn't exist`,
           });
+        } else {
+          queryStr += `
+          WHERE topic = '${topic}' `;
         }
       }
     })
     .then(() => {
+      queryStr += `
+      GROUP by articles.article_id
+      ORDER BY ${sort_by} ${order};`;
+
       return db.query(queryStr).then(({ rows }) => {
         return rows;
       });
