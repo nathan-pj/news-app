@@ -345,6 +345,33 @@ describe("DELETE /api/comments/:comment_id ", () => {
   });
 });
 
+describe("DELETE /api/articles/:article_id ", () => {
+  test("204 - delete article", () => {
+    return request(app)
+      .delete("/api/articles/1")
+      .expect(204)
+      .then((response) => {
+        expect(response.status).toBe(204);
+      });
+  });
+  test("400 - invalid path", () => {
+    return request(app)
+      .delete("/api/articles/INVALID")
+      .expect(400)
+      .then((response) => {
+        expect(response.status).toBe(400);
+      });
+  });
+  test("404 - ID not found", () => {
+    return request(app)
+      .delete("/api/articles/9999")
+      .expect(404)
+      .then((response) => {
+        expect(response.body.msg).toBe("article '9999' doesn't exist");
+      });
+  });
+});
+
 describe("GET /api ", () => {
   test("get all endpoints", () => {
     return request(app)

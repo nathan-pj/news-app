@@ -5,6 +5,7 @@ const {
   showArticleComments,
   addArticleComment,
   addArticle,
+  deleteArticle,
 } = require("../models/articles.model");
 
 exports.getSpecificArticle = (req, res, next) => {
@@ -72,6 +73,14 @@ exports.postArticle = (req, res, next) => {
   addArticle(body, title, topic, author, created_at)
     .then((article) => {
       res.status(201).send({ article: article });
+    })
+    .catch(next);
+};
+exports.removeArticle = (req, res, next) => {
+  const { article_id } = req.params;
+  deleteArticle(article_id)
+    .then(() => {
+      res.status(204).send();
     })
     .catch(next);
 };
