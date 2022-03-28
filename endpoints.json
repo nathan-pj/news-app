@@ -71,8 +71,28 @@
       }
     ]
   },
+  "PATCH /api/articles/:article_id/": {
+    "description": "add like to article",
+    "queries": ["inc_votes"],
+    "exampleResponse": []
+  },
 
   "DELETE /api/comments/:comment_id": {
+    "description": "deletes comment",
+    "queries": [],
+    "exampleResponse": {}
+  },
+  "POST /api/articles/:comment_id": {
+    "description": "add comment",
+    "queries": ["article_id", "comment", "username"],
+    "exampleResponse": {}
+  },
+  "POST /api/articles/": {
+    "description": "add article",
+    "queries": ["body", "title", "topic", "author", "created_at"],
+    "exampleResponse": {}
+  },
+  "DELETE /api/articles/:article_id": {
     "description": "deletes comment",
     "queries": [],
     "exampleResponse": {}
